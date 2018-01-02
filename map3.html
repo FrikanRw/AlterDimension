@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- Basic Page Needs
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta charset="utf-8">
+    <title>DWS Prototype</title>
+    <meta name="Prototype web GIS for Alteram" content="">
+    <meta name="Frikan Erwee" content="">
+
+    <!-- Mobile Specific Metas
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- FONT
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+    <!-- CSS
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/skeleton.css">
+    <link rel="stylesheet" href="css/main.css"/>
+    <link rel="stylesheet" href="js/leaflet/leaflet.css"/>
+    <link rel="stylesheet" href="js/markercluster/dist/MarkerCluster.css"/>
+    <link rel="stylesheet" href="js/markercluster/dist/MarkerCluster.Default.css"/>
+    <link rel="stylesheet" href="js/legend/leaflet.wmslegend.css"/>
+    <link rel="stylesheet" href="js/sidebar/L.Control.Sidebar.css"/>
+    <link rel="stylesheet" href="node_modules/leaflet-toolbar/dist/leaflet.toolbar.css"/>
+    <link rel="stylesheet" href="./js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" href="./js/bootstrap-3.3.7/dist/css/bootstrap.css" />
+
+    <!-- Favicon
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+
+</head>
+<body>
+
+<!-- Primary Page Layout
+–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+<!-- Filters based on geoserver CQL
+––––––––––––––––––––––––––––––––––– -->
+<div id="sidebar">
+    <h1>Filter-sidebar</h1>
+    <div class="container">
+        <div class="row">
+            <div class='col-sm-6' style="width: 30%">
+                <div class="form-group">
+                    <div class='input-group date' id='datetimepicker1'>
+                        <input type='text' class="form-control" />
+                        <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="Filters">
+        <label for="statusFilter">Filter on Lifecyle Status:</label>
+        <select id="statusFilter">
+            <option value=" IS NOT NULL">All Statuses</option>
+            <option value="='Closed'">Closed</option>
+            <option value="='Completed'">Completed</option>
+            <option value="='In Process'">In Process</option>
+            <option value="='Open'">Open</option>
+        </select>
+        <label for="serviceFilter">Filter on Service Category:</label>
+        <select id="serviceFilter">
+            <option value=" IS NOT NULL">All Categories</option>
+            <option value="='Water Service Regulation'">Water Service Regulation</option>
+            <option value="='Main - Accounts Payable'">Main - Accounts Payable</option>
+            <option value="='Planned Service Delivery Protest (SDP)'">Planned Service Delivery Protest
+                (SDP)</option>
+            <option value="='Debt Management'">Debt Management</option>
+            <option value="='Water Us Registration'">Water Use Registration</option>
+            <option value="='Billing Management'">Billing Management</option>
+            <option value="='WTE - Accounts Payable'">WTE - Accounts Payable</option>
+            <option value="='WR-Water infrastructure'">WR-Water infrastructure</option>
+            <option value="='Marketing'">Marketing</option>
+            <option value="='Water Information Management'">Water Information Management</option>
+            <option value="='Sanitation'">Sanitation</option>
+            <option value="='Compliance & Enforcement'">Compliance & Enforcement</option>
+            <option value="='Water'">Water</option>
+            <option value="='WTE - SCM'">WTE - SCM</option>
+            <option value="='Corporate Services'">Corporate Services</option>
+            <option value="='Accounts'">Accounts</option>
+        </select>
+        <label for="interactiveFilter">Filter on Interactive channel:</label>
+        <select id="interactiveFilter">
+            <option value=" IS NOT NULL">All Channels</option>
+            <option value="='Walk-In Center'">Walk-In Center</option>
+            <option value="='Credit Control'">Credit Control</option>
+            <option value="='Presidential Hotline'">Presidential Hotline</option>
+            <option value="='Web Access'">Web Access</option>
+            <option value="='NICS'">NICS</option>
+            <option value="='Director General'">Director General</option>
+            <option value="='Environmental Affairs'">Environmental Affairs</option>
+            <option value="='Telephone'">Telephone</option>
+            <option value="='SMS'">SMS</option>
+            <option value="='Fax'">Fax</option>
+            <option value="='EWS'">EWS</option>
+            <option value="='Rand Water'">Rand Water</option>
+            <option value="='Setsokotsane(NW)'">Setsokotsane(NW)</option>
+            <option value="='Email'">Email</option>
+            <option value="='Accounts'">Accounts</option></select>
+        <input id="interactiveFilterinput" type="button" value="Filter" onclick="Filter();"/>
+    </div>
+</div>
+<!-- Map
+––––––––––––––––––––––––––––––––––– -->
+
+<div id="map"></div>
+
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<script type="text/javascript" src="./js/jQuery/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="./js/moment.min.js"></script>
+<script type="text/javascript" src="./js/bootstrap-3.3.7/js/transition.js"></script>
+<script type="text/javascript" src="./js/bootstrap-3.3.7/js/collapse.js"></script>
+<script type="text/javascript" src="./js/bootstrap-3.3.7/dist/js/bootstrap.js"></script>
+<script type="text/javascript" src="./js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="./js/leaflet/leaflet.js"></script>
+<script type="text/javascript" src="./js/spin/dist/spin.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/leaflet/leaflet.spin.js"></script>
+<script type="text/javascript" src="./js/leaflet/leaflet.spin.min.js"></script>
+<script type="text/javascript" src="./js/markercluster/dist/leaflet.markercluster-src.js"></script>
+<script src="node_modules/leaflet-toolbar/dist/leaflet.toolbar.js"></script>
+<script src="./js/legend/leaflet.wmslegend.js"></script>
+<script src="./js/sidebar/L.Control.Sidebar.js"></script>
+<script type="text/javascript" src="js/webmap3.js"></script>
+</body>
+</html>
+
